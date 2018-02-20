@@ -54,7 +54,7 @@ namespace aspnetcore_id_demo.Controllers
                         issuer: _configuration["Token:Issuer"],
                         audience: _configuration["Token:Audience"],
                         claims: claims,
-                        expires: DateTime.UtcNow.AddDays(60),
+                        expires: DateTime.UtcNow.AddMinutes(_configuration.GetValue<double>("Token:ExpireAfterMinutes")),
                         notBefore: DateTime.UtcNow,
                         signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:Key"])),
                             SecurityAlgorithms.HmacSha256)

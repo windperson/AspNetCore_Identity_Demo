@@ -48,6 +48,7 @@ namespace aspnetcore_id_demo
                 .AddCookie()
                 .AddJwtBearer(jwtBearOptions =>
                 {
+                    jwtBearOptions.SaveToken = true;
                     jwtBearOptions.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateActor = false,
@@ -56,9 +57,11 @@ namespace aspnetcore_id_demo
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = Configuration["Token:Issuer"],
                         ValidAudience = Configuration["Token:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Token:Key"]))
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Token:Key"])),
+                        ClockSkew = TimeSpan.Zero
                     };
                 });
+
             services.AddMvc();
         }
 
